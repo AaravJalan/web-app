@@ -1,4 +1,10 @@
-export type PaletteId = 'default' | 'viridis' | 'plasma' | 'blues';
+export type PaletteId =
+  | 'default'
+  | 'viridis'
+  | 'plasma'
+  | 'blues'
+  | 'cividis'
+  | 'oranges';
 
 export const DEFAULT_FILL = '#6200ea';
 
@@ -30,6 +36,16 @@ export const ISOCHRONE_PALETTES: IsochronePalette[] = [
     id: 'blues',
     label: 'Blues',
     colors: ['#084594', '#2171b5', '#4292c6', '#9ecae1', '#deebf7'],
+  },
+  {
+    id: 'cividis',
+    label: 'Cividis (colorblind-friendly)',
+    colors: ['#00204d', '#31446b', '#666870', '#958f78', '#e4cf5b'],
+  },
+  {
+    id: 'oranges',
+    label: 'Oranges (colorblind-friendly)',
+    colors: ['#fff5eb', '#fdd0a2', '#fdae6b', '#e6550d', '#7f2704'],
   },
 ];
 
