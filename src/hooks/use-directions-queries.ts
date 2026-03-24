@@ -86,9 +86,7 @@ export function useDirectionsQuery() {
         const data = await fetchDirections();
         if (data) {
           receiveRouteResults({ data });
-          requestAnimationFrame(() => {
-            zoomTo(data.decodedGeometry);
-          });
+          zoomTo(data.decodedGeometry);
         }
         return data;
       } catch (error) {
@@ -108,7 +106,7 @@ export function useDirectionsQuery() {
         }
         throw error;
       } finally {
-        showLoading(false);
+        setTimeout(() => showLoading(false), 500);
       }
     },
     enabled: false,
@@ -147,43 +145,6 @@ export function useReverseGeocodeDirections() {
     // Set placeholder immediately
     updatePlaceholderAddressAtIndex(index, lng, lat);
 
-    // If geocoding is disabled, skip the Nominatim round trip entirely.
-    const use_geocoding = useCommonStore.getState().settings.use_geocoding;
-    if (!use_geocoding) {
-      const coordTitle = `${lng.toFixed(6)}, ${lat.toFixed(6)}`;
-      const coordResult: ActiveWaypoint[] = [
-        {
-          title: coordTitle,
-          description: '',
-          selected: true,
-          addresslnglat: [lng, lat],
-          sourcelnglat: [lng, lat],
-          displaylnglat: [lng, lat],
-          key: 0,
-          addressindex: 0,
-        },
-      ];
-      receiveGeocodeResults({ addresses: coordResult, index });
-      updateTextInput({ inputValue: coordTitle, index, addressindex: 0 });
-      return coordResult;
-    }
-
-    try {
-      const addresses = await fetchReverseGeocode(lng, lat);
-      receiveGeocodeResults({
-        addresses,
-        index,
-      });
-      updateTextInput({
-        inputValue: addresses[0]?.title || '',
-        index,
-        addressindex: 0,
-      });
-      return addresses;
-    } catch (error) {
-      console.error('Reverse geocode error:', error);
-      throw error;
-    }
     // Use raw coordinates directly — no reverse geocoding
     const lngLat: [number, number] = [lng, lat];
     const address: ActiveWaypoint = {
