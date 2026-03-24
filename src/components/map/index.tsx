@@ -301,15 +301,13 @@ export const MapComponent = () => {
       });
   }, []);
 
-  // handleAddWaypoint now receives the lngLat from MapContextMenu directly.
   const handleAddWaypoint = useCallback(
-    (index: number, lngLat?: { lng: number; lat: number }) => {
-      const location = lngLat ?? popupLngLat;
-      if (!location) return;
+    (index: number) => {
+      if (!popupLngLat) return;
       setShowContextPopup(false);
 
       updateWaypointPosition({
-        latLng: { lat: location.lat, lng: location.lng },
+        latLng: { lat: popupLngLat.lat, lng: popupLngLat.lng },
         index,
       });
     },

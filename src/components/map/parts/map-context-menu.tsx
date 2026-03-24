@@ -4,7 +4,7 @@ import { useDirectionsStore } from '@/stores/directions-store';
 
 interface MapContextMenuProps {
   activeTab: string;
-  onAddWaypoint: (index: number, lngLat?: { lng: number; lat: number }) => void;
+  onAddWaypoint: (index: number) => void;
   onAddIsoWaypoint: () => void;
   popupLocation: { lng: number; lat: number };
 }
@@ -26,11 +26,7 @@ export function MapContextMenu({
         orientation="vertical"
         data-testid="button-group-right-context"
       >
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => onAddWaypoint(0, popupLocation)}
-        >
+        <Button variant="outline" size="sm" onClick={() => onAddWaypoint(0)}>
           Directions from here
         </Button>
         <Button
@@ -41,7 +37,7 @@ export function MapContextMenu({
               index: waypointCount - 1,
               placeholder: popupLocation,
             });
-            onAddWaypoint(waypointCount - 1, popupLocation);
+            onAddWaypoint(waypointCount - 1);
           }}
         >
           Add as via point
@@ -49,7 +45,7 @@ export function MapContextMenu({
         <Button
           variant="outline"
           size="sm"
-          onClick={() => onAddWaypoint(waypointCount - 1, popupLocation)}
+          onClick={() => onAddWaypoint(waypointCount - 1)}
         >
           Directions to here
         </Button>
